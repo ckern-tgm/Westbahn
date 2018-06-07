@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm
+   http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+
+    <description>XML Mapping file (ORM)</description>
+    <package>westbahn</package>
+
+    <entity class="Reservierung" name="Reservierung">
+        <table name="Reservierung"/>
+        <named-query name="Reservierung.getReservierungenForUser">
+            <query>SELECT r FROM Reservierung r LEFT JOIN r.benutzer b WHERE b.eMail = :email</query>
+        </named-query>
+        <attributes>
+            <id name="ID">
+                <generated-value strategy="IDENTITY"/>
+            </id>
+            <basic name="datum"/>
+            <basic name="praemienMeilenBonus"/>
+            <basic name="preis"/>
+            <basic name="status"/>
+            <one-to-one name="zug">
+                <join-column name="zug_id"/>
+            </one-to-one>
+            <one-to-one name="strecke">
+                <join-column name="strecke_id"/>
+            </one-to-one>
+            <many-to-one name="benutzer">
+                <join-column name="benutzer_id"/>
+            </many-to-one>
+            <transient name="zahlung"/>
+        </attributes>
+    </entity>
+
+</entity-mappings>
